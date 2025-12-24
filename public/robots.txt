@@ -1,0 +1,9 @@
+# Sitemap
+https://kittykit.hot/
+https://kittykit.hot/#products
+https://kittykit.hot/#faq
+
+User-agent: *
+Allow: /
+
+Sitemap: https://kittykit.hot/sitemap.xml
