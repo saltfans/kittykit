@@ -36,9 +36,9 @@ const bundles = [
     name: 'Duo Pack',
     quantity: 2,
     description: 'Both colors',
-    originalPrice: 38,
+    originalPrice: 50,
     price: 32,
-    discount: 6,
+    discount: 18,
     popular: true,
     badge: 'Best Value',
   },
@@ -78,7 +78,7 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
         </motion.div>
 
         {/* Products Grid */}
-        <div className="grid md:grid-cols-2 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 gap-12 mb-20 max-w-6xl mx-auto">
           {products.map((product, index) => (
             <motion.div
               key={product.id}
@@ -87,33 +87,211 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
               onClick={() => setSelectedColor(product.id)}
-              className={`relative group cursor-pointer rounded-3xl overflow-hidden transition-all duration-300 ${
-                selectedColor === product.id ? 'ring-4 ring-pink-500 scale-105' : 'hover:scale-102'
-              }`}
+              className="relative group cursor-pointer"
             >
-              <div className={`aspect-square bg-gradient-to-br ${product.gradient} p-12 flex items-center justify-center relative`}>
+              {/* Outer glow for selected */}
+              {selectedColor === product.id && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`absolute -inset-8 bg-gradient-to-br ${product.gradient} rounded-full blur-3xl opacity-30`}
+                  />
+                  <motion.div
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      opacity: [0.3, 0.5, 0.3]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className={`absolute -inset-4 bg-gradient-to-br ${product.gradient} rounded-full blur-2xl`}
+                  />
+                </>
+              )}
+
+              <div className={`relative aspect-[3/4] rounded-3xl overflow-hidden transition-all duration-700 ${
+                selectedColor === product.id 
+                  ? 'ring-2 ring-pink-400/50 shadow-2xl shadow-pink-500/30' 
+                  : 'hover:shadow-xl hover:shadow-pink-500/10'
+              }`}>
+                
+                {/* Sophisticated gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95">
+                  {/* Subtle colored accent */}
+                  <div className={`absolute inset-0 bg-gradient-to-tr ${product.gradient} opacity-5`} />
+                  
+                  {/* Animated shimmer effect */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+                    style={{
+                      background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%)',
+                      backgroundSize: '200% 200%',
+                    }}
+                    animate={{
+                      backgroundPosition: ['0% 0%', '100% 100%'],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                  />
+                </div>
+
+                {/* Floating particles for selected */}
+                {selectedColor === product.id && (
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    {[...Array(8)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className={`absolute w-1 h-1 bg-gradient-to-r ${product.gradient} rounded-full`}
+                        initial={{ 
+                          x: Math.random() * 100 + '%', 
+                          y: '100%',
+                          opacity: 0 
+                        }}
+                        animate={{ 
+                          y: '-20%',
+                          opacity: [0, 1, 0],
+                        }}
+                        transition={{ 
+                          duration: 2 + Math.random() * 2,
+                          repeat: Infinity,
+                          delay: i * 0.3,
+                          ease: 'easeOut'
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Checkmark badge with glow */}
                 {selectedColor === product.id && (
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute top-4 right-4 bg-white rounded-full p-2"
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="absolute top-6 right-6 z-20"
                   >
-                    <Check className="w-6 h-6 text-pink-600" />
+                    <div className={`absolute inset-0 bg-gradient-to-r ${product.gradient} rounded-full blur-md opacity-60`} />
+                    <div className="relative bg-white rounded-full p-3 shadow-2xl">
+                      <Check className="w-6 h-6 text-pink-600" />
+                    </div>
                   </motion.div>
                 )}
-                
-                {/* Product image */}
-                <div className="text-white text-center relative">
-                  <div className="w-64 h-64 mx-auto mb-4 relative">
-                    <img
+
+                {/* Selected badge */}
+                {selectedColor === product.id && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    className="absolute top-6 left-6 z-20 px-4 py-2 glass rounded-full shadow-lg border border-pink-400/30"
+                  >
+                    <span className="text-pink-400 font-semibold text-sm flex items-center gap-2">
+                      <motion.span
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      >
+                        ✨
+                      </motion.span>
+                      Selected
+                    </span>
+                  </motion.div>
+                )}
+
+                {/* Main content */}
+                <div className="relative h-full flex flex-col items-center justify-center p-12">
+                  
+                  {/* Product image with sophisticated effects */}
+                  <motion.div
+                    className="relative mb-8"
+                    whileHover={{ 
+                      scale: 1.05,
+                      y: -15,
+                    }}
+                    transition={{ 
+                      type: 'spring', 
+                      stiffness: 300,
+                      damping: 20
+                    }}
+                  >
+                    {/* Image glow effect */}
+                    <motion.div
+                      className={`absolute inset-0 bg-gradient-to-br ${product.gradient} rounded-full blur-3xl opacity-20`}
+                      animate={{
+                        scale: selectedColor === product.id ? [1, 1.2, 1] : 1,
+                        opacity: selectedColor === product.id ? [0.2, 0.4, 0.2] : 0.2,
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    
+                    {/* Spotlight effect on hover */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                      style={{
+                        background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+                      }}
+                    />
+
+                    <motion.img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain drop-shadow-2xl"
+                      className="relative w-80 h-80 object-contain filter drop-shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
+                      animate={{
+                        filter: selectedColor === product.id 
+                          ? [
+                              'drop-shadow(0 20px 60px rgba(0,0,0,0.7))',
+                              `drop-shadow(0 25px 70px rgba(236, 72, 153, 0.4))`,
+                              'drop-shadow(0 20px 60px rgba(0,0,0,0.7))',
+                            ]
+                          : 'drop-shadow(0 20px 60px rgba(0,0,0,0.7))'
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
                     />
+
+                    {/* Circular accent behind image */}
+                    <div className="absolute inset-0 -z-10">
+                      <div className={`w-full h-full rounded-full bg-gradient-to-br ${product.gradient} opacity-5 blur-2xl`} />
+                    </div>
+                  </motion.div>
+
+                  {/* Product info with elegant styling */}
+                  <div className="text-center space-y-3 relative z-10">
+                    <motion.h3 
+                      className="text-3xl font-bold text-white tracking-tight"
+                      animate={{
+                        textShadow: selectedColor === product.id 
+                          ? '0 0 20px rgba(236, 72, 153, 0.3)'
+                          : '0 0 0px rgba(236, 72, 153, 0)'
+                      }}
+                    >
+                      {product.name}
+                    </motion.h3>
+                    
+                    <p className="text-lg text-gray-300 font-medium">{product.color}</p>
+                    
+                    {/* Elegant divider */}
+                    <motion.div 
+                      className="flex items-center justify-center gap-3 pt-3"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <div className="h-px w-8 bg-gradient-to-r from-transparent via-pink-500/50 to-transparent" />
+                      <div className={`w-2 h-2 rounded-full bg-gradient-to-br ${product.gradient} shadow-lg`} />
+                      <div className="h-px w-8 bg-gradient-to-r from-transparent via-pink-500/50 to-transparent" />
+                    </motion.div>
+
+                    <motion.p 
+                      className="text-sm text-gray-400 pt-2"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7 }}
+                    >
+                      12-hour lasting • Cruelty-free
+                    </motion.p>
                   </div>
-                  <h3 className="text-2xl font-bold">{product.name}</h3>
-                  <p className="text-lg opacity-90">{product.color}</p>
                 </div>
+
+                {/* Hover border glow */}
+                <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ring-1 ring-inset ${
+                  selectedColor === product.id ? 'ring-pink-400/30' : 'ring-white/10'
+                }`} />
               </div>
             </motion.div>
           ))}
