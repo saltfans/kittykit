@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [particles, setParticles] = useState<Array<{ x: number; y: number; duration: number }>>([]);
+  const [particles, setParticles] = useState<Array<{ x: number; y: number; targetX: number; targetY: number; duration: number }>>([]);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -24,6 +24,8 @@ export default function Hero() {
       Array.from({ length: 20 }, () => ({
         x: Math.random() * 100,
         y: Math.random() * 100,
+        targetX: Math.random() * 100,
+        targetY: Math.random() * 100,
         duration: 20 + Math.random() * 20,
       }))
     );
@@ -71,8 +73,8 @@ export default function Hero() {
               y: `${particle.y}%`,
             }}
             animate={{
-              x: `${Math.random() * 100}%`,
-              y: `${Math.random() * 100}%`,
+              x: `${particle.targetX}%`,
+              y: `${particle.targetY}%`,
             }}
             transition={{
               duration: particle.duration,

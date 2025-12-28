@@ -161,7 +161,7 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
                 key={i}
                 className={`absolute w-1 h-1 bg-gradient-to-r ${product.gradient} rounded-full`}
                 initial={{ 
-                  x: `${Math.random() * 100}%`, 
+                  x: `${(i * 12.5)}%`, 
                   y: '100%',
                   opacity: 0 
                 }}
@@ -170,7 +170,7 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
                   opacity: [0, 1, 0],
                 }}
                 transition={{ 
-                  duration: 2 + Math.random() * 2,
+                  duration: 2 + (i % 3),
                   repeat: Infinity,
                   delay: i * 0.3,
                   ease: 'easeOut'
