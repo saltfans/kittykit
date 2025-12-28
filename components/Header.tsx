@@ -47,7 +47,7 @@ export default function Header({ user, onAuthClick, onProfileClick }: HeaderProp
             <div className="relative">
               <img 
                 src="/logopng.png" 
-                alt="KittyKit Logo" 
+                alt="KittyKit" 
                 className="h-20 w-auto object-contain bg-pink-500/90"
               />
             </div>
