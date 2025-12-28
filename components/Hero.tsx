@@ -108,7 +108,7 @@ export default function Hero() {
             >
               <Sparkles className="w-5 h-5 text-pink-500" />
             </motion.div>
-            <span className="text-sm text-gray-200 font-medium">Limited Time Offer</span>
+            <span className="text-sm text-gray-200 font-medium">Limited Time Offers</span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
