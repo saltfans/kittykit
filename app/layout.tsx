@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Kitty KIT - Premium Lipstick | Luxury Beauty",
-  description: "Discover Kitty KIT premium lipsticks in Pink and Red. Get up to 45% off on bundle deals. Free shipping across Europe.",
+  description: "Discover Kitty KIT premium lipsticks in Pink and Red. Get up to 45% off on bundle deals.",
   keywords: ["lipstick", "makeup", "beauty", "kitty kit", "luxury lipstick", "pink lipstick", "red lipstick", "european beauty", "cruelty free makeup"],
   authors: [{ name: "Kitty KIT" }],
   creator: "Kitty KIT",
