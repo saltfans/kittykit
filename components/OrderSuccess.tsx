@@ -15,13 +15,15 @@ export default function OrderSuccess({ orderNumber, email, total, onClose }: Ord
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
 
   useEffect(() => {
-    // Create confetti particles
-    const newParticles = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-    }));
-    setParticles(newParticles);
+    // Create confetti particles only in browser
+    if (typeof window !== 'undefined') {
+      const newParticles = Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+      }));
+      setParticles(newParticles);
+    }
   }, []);
 
   const steps = [

@@ -6,20 +6,35 @@ import { useEffect, useState } from 'react';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState<Array<{ x: number; y: number; duration: number }>>([]);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
+    
+    // Generate particles only on client side
+    setParticles(
+      Array.from({ length: 20 }, () => ({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        duration: 20 + Math.random() * 20,
+      }))
+    );
+    
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const scrollToProducts = () => {
-    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+    if (typeof document !== 'undefined') {
+      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -47,20 +62,20 @@ export default function Hero() {
 
       {/* Floating particles */}
       <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {particles.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-pink-500/30 rounded-full"
             initial={{
-              x: `${Math.random() * 100}%`,
-              y: `${Math.random() * 100}%`,
+              x: `${particle.x}%`,
+              y: `${particle.y}%`,
             }}
             animate={{
               x: `${Math.random() * 100}%`,
               y: `${Math.random() * 100}%`,
             }}
             transition={{
-              duration: 20 + Math.random() * 20,
+              duration: particle.duration,
               repeat: Infinity,
               ease: 'linear',
             }}

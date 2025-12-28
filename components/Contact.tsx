@@ -293,7 +293,9 @@ export default function Contact() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
-                  document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                  if (typeof document !== 'undefined') {
+                    document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                  }
                 }}
                 className="text-pink-400 font-semibold hover:text-pink-300 transition-colors"
               >

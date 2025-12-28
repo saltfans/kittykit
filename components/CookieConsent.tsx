@@ -8,6 +8,7 @@ export default function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     // Check if user has already accepted cookies
     const hasAccepted = localStorage.getItem('cookieConsent');
     if (!hasAccepted) {
@@ -17,12 +18,16 @@ export default function CookieConsent() {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('cookieConsent', 'accepted');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cookieConsent', 'accepted');
+    }
     setIsVisible(false);
   };
 
   const handleDecline = () => {
-    localStorage.setItem('cookieConsent', 'declined');
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cookieConsent', 'declined');
+    }
     setIsVisible(false);
   };
 

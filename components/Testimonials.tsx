@@ -260,7 +260,9 @@ export default function Testimonials() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
-              document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              if (typeof document !== 'undefined') {
+                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+              }
             }}
             className="px-8 py-4 gradient-pink-glow rounded-full text-white font-semibold text-lg shadow-xl"
           >
