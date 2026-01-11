@@ -1,57 +1,73 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Check, Star, TrendingUp, Sparkles } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { Check, Star, TrendingUp, Sparkles, Heart } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import CountdownTimer from './CountdownTimer';
 
 const products = [
   {
-    id: 'pink',
-    name: 'Kitty KIT Pink',
-    color: 'Pink Perfection',
-    image: '/lipstick-pink.jpg',
-    gradient: 'from-pink-500 to-pink-600',
+    id: 'gorgeous',
+    name: 'Set Gorgeous',
+    color: 'Stunning Fuchsia',
+    description: 'Bold and beautiful fuchsia lip kit with liner and gloss for the ultimate glam look',
+    images: [
+      '/KKIT/openlipstick_gorgeous_onhand.jpg',
+      '/KKIT/inside_package_gorgeous.jpg',
+      '/KKIT/leadinglady_lipliner_open.jpg',
+    ],
+    image: '/KKIT/openlipstick_gorgeous_onhand.jpg',
+    gradient: 'from-fuchsia-500 to-pink-600',
+    video: '/KKIT/set_gorgeous_onhand_video.MOV',
   },
   {
-    id: 'red',
-    name: 'Kitty KIT Red',
-    color: 'Ruby Red',
-    image: '/lipstick-red.jpg',
-    gradient: 'from-red-500 to-red-600',
+    id: 'leadinglady',
+    name: 'Set Leading Lady',
+    color: 'Classic Red',
+    description: 'Timeless red lip kit with precision liner and lustrous gloss for a show-stopping finish',
+    images: [
+      '/KKIT/openlipstick_leadinglady_onhand.jpg',
+      '/KKIT/inside_package_leadinglady.jpg',
+      '/KKIT/lipstick_leadinglady_onhand.jpg',
+    ],
+    image: '/KKIT/openlipstick_leadinglady_onhand.jpg',
+    gradient: 'from-red-600 to-rose-700',
+    video: '/KKIT/set_leadinglady_onhand_video.MOV',
   },
 ];
 
 const bundles = [
   {
     id: 'single',
-    name: 'Single Lipstick Kit',
+    name: 'Single Lip Kit',
     quantity: 1,
-    originalPrice: 25,
-    price: 19,
-    discount: 6,
+    originalPrice: 29,
+    price: 24,
+    discount: 5,
     popular: false,
+    description: 'Complete lip kit: liner + gloss',
   },
   {
     id: 'duo',
-    name: 'Duo Pack',
+    name: 'Duo Pack - Both Sets',
     quantity: 2,
-    description: 'Both colors',
-    originalPrice: 50,
-    price: 35,
-    discount: 15,
+    description: 'Set Gorgeous + Set Leading Lady',
+    originalPrice: 58,
+    price: 45,
+    discount: 13,
     popular: true,
-    badge: 'Best Value',
+    badge: 'Most Popular',
   },
   {
     id: 'quad',
     name: 'Quad Pack',
     quantity: 4,
-    description: '2 of each color',
-    originalPrice: 100,
-    price: 60,
-    discount: 40,
+    description: '2 Gorgeous + 2 Leading Lady',
+    originalPrice: 116,
+    price: 79,
+    discount: 37,
     popular: false,
-    badge: 'Save 40%',
+    badge: 'Save €37',
   },
 ];
 
@@ -64,6 +80,9 @@ interface ProductCardProps {
 
 function ProductCard({ product, index, selectedColor, onSelect }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
@@ -89,15 +108,43 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+    setShowVideo(false);
+  };
+  
+  const handleMouseEnter = () => {
+    if (product.video) {
+      setTimeout(() => {
+        setShowVideo(true);
+      }, 1500);
+    }
   };
 
   const isSelected = selectedColor === product.id;
+  
+  // Auto-cycle through images when video not shown
+  useEffect(() => {
+    if (!product.images || product.images.length <= 1 || showVideo) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [product.images, showVideo]);
+  
+  // Play video when shown
+  useEffect(() => {
+    if (showVideo && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [showVideo]);
 
   return (
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
       style={{
         rotateX,
         rotateY,
@@ -131,25 +178,25 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
 
       <div className={`relative aspect-[3/4] rounded-3xl overflow-hidden transition-all duration-700 ${
         isSelected 
-          ? 'ring-2 ring-pink-400/50 shadow-2xl shadow-pink-500/30' 
-          : 'hover:shadow-xl hover:shadow-pink-500/10'
+          ? 'ring-4 ring-pink-400/60 shadow-2xl shadow-pink-500/40 scale-[1.02]' 
+          : 'hover:shadow-xl hover:shadow-pink-500/20 hover:scale-[1.01]'
       }`}>
         
         {/* Sophisticated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-800/90 to-gray-900/95">
-          <div className={`absolute inset-0 bg-gradient-to-tr ${product.gradient} opacity-5`} />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/98 via-gray-800/95 to-gray-900/98">
+          <div className={`absolute inset-0 bg-gradient-to-tr ${product.gradient} opacity-10 group-hover:opacity-15 transition-opacity duration-500`} />
           
           {/* Animated shimmer effect */}
           <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
             style={{
-              background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%)',
+              background: 'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)',
               backgroundSize: '200% 200%',
             }}
             animate={{
               backgroundPosition: ['0% 0%', '100% 100%'],
             }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }}
           />
         </div>
 
@@ -200,15 +247,15 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="absolute top-6 left-6 z-20 px-4 py-2 glass rounded-full shadow-lg border border-pink-400/30"
+            className="absolute top-6 left-6 z-20 px-5 py-2.5 glass-strong rounded-full shadow-xl border-2 border-pink-400/40 backdrop-blur-xl"
           >
-            <span className="text-pink-400 font-semibold text-sm flex items-center gap-2">
-              <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
+            <span className="text-pink-400 font-bold text-sm flex items-center gap-2">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               >
-                ✨
-              </motion.span>
+                <Sparkles className="w-4 h-4" />
+              </motion.div>
               Selected
             </span>
           </motion.div>
@@ -248,21 +295,46 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
               }}
             />
 
-            <motion.img
-              src={product.image}
-              alt={product.name}
-              className="relative w-80 h-80 object-contain filter drop-shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
-              animate={{
-                filter: isSelected 
-                  ? [
-                      'drop-shadow(0 20px 60px rgba(0,0,0,0.7))',
-                      'drop-shadow(0 25px 70px rgba(236, 72, 153, 0.4))',
-                      'drop-shadow(0 20px 60px rgba(0,0,0,0.7))',
-                    ]
-                  : 'drop-shadow(0 20px 60px rgba(0,0,0,0.7))'
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
+            {showVideo && product.video ? (
+              <video
+                ref={videoRef}
+                src={product.video}
+                className="w-80 h-80 object-cover rounded-3xl shadow-2xl"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            ) : (
+              <motion.img
+                key={currentImageIndex}
+                src={product.images?.[currentImageIndex] || product.image}
+                alt={product.name}
+                className="w-80 h-80 object-contain drop-shadow-2xl relative z-10"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              />
+            )}
+            
+            {/* Image indicators - hide when video is showing */}
+            {!showVideo && product.images && product.images.length > 1 && (
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                {product.images.map((_, idx) => (
+                  <motion.button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      idx === currentImageIndex 
+                        ? `bg-gradient-to-r ${product.gradient}` 
+                        : 'bg-white/30'
+                    }`}
+                    whileHover={{ scale: 1.3 }}
+                    whileTap={{ scale: 0.9 }}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Circular accent behind image */}
             <div className="absolute inset-0 -z-10">
@@ -271,39 +343,53 @@ function ProductCard({ product, index, selectedColor, onSelect }: ProductCardPro
           </motion.div>
 
           {/* Product info with elegant styling */}
-          <div className="text-center space-y-3 relative z-10">
+          <div className="text-center space-y-4 relative z-10">
             <motion.h3 
-              className="text-3xl font-bold text-white tracking-tight"
+              className="text-4xl font-bold text-white tracking-tight"
               animate={{
                 textShadow: isSelected 
-                  ? '0 0 20px rgba(236, 72, 153, 0.3)'
+                  ? '0 0 30px rgba(236, 72, 153, 0.4)'
                   : '0 0 0px rgba(236, 72, 153, 0)'
               }}
             >
               {product.name}
             </motion.h3>
             
-            <p className="text-lg text-gray-300 font-medium">{product.color}</p>
+            <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-pink-100 font-semibold">
+              {product.color}
+            </p>
             
             {/* Elegant divider */}
             <motion.div 
-              className="flex items-center justify-center gap-3 pt-3"
+              className="flex items-center justify-center gap-3 pt-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <div className="h-px w-8 bg-gradient-to-r from-transparent via-pink-500/50 to-transparent" />
-              <div className={`w-2 h-2 rounded-full bg-gradient-to-br ${product.gradient} shadow-lg`} />
-              <div className="h-px w-8 bg-gradient-to-r from-transparent via-pink-500/50 to-transparent" />
+              <div className={`h-0.5 w-12 bg-gradient-to-r from-transparent via-pink-500/60 to-transparent rounded-full`} />
+              <motion.div 
+                className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${product.gradient} shadow-lg shadow-pink-500/50`}
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <div className={`h-0.5 w-12 bg-gradient-to-r from-transparent via-pink-500/60 to-transparent rounded-full`} />
             </motion.div>
 
             <motion.p 
-              className="text-sm text-gray-400 pt-2"
+              className="text-sm text-gray-400 pt-2 flex items-center justify-center gap-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              12-hour lasting • Cruelty-free
+              <span className="flex items-center gap-1.5">
+                <Check className="w-4 h-4 text-green-400" />
+                12-hour lasting
+              </span>
+              <span className="text-gray-600">•</span>
+              <span className="flex items-center gap-1.5">
+                <Heart className="w-4 h-4 text-pink-400" />
+                Cruelty-free
+              </span>
             </motion.p>
           </div>
         </div>
@@ -353,11 +439,21 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
           <h2 className="text-6xl md:text-7xl font-bold mb-8 leading-tight">
             Choose Your <span className="gradient-text-animated">Shade</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
             Premium formula that lasts up to <span className="text-pink-400 font-semibold">12 hours</span>.
             <br className="hidden md:block" />
             Cruelty-free and made in Europe with love.
           </p>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center"
+          >
+            <CountdownTimer />
+          </motion.div>
         </motion.div>
 
         {/* Products Grid with 3D Cards */}
@@ -453,7 +549,7 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
                 </div>
                 {bundle.quantity > 0 && (
                   <div className="text-sm text-gray-400 mt-2">
-                    €{(bundle.price / bundle.quantity).toFixed(2)} per lipstick
+                    €{(bundle.price / bundle.quantity).toFixed(2)} per kit
                   </div>
                 )}
               </div>
@@ -463,13 +559,13 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center">
                     <Check className="w-4 h-4 text-pink-500" />
                   </div>
-                  <span>{bundle.quantity} Premium Lipstick{bundle.quantity > 1 ? 's' : ''}</span>
+                  <span>{bundle.quantity} Lip Liner{bundle.quantity > 1 ? 's' : ''}</span>
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center">
                     <Check className="w-4 h-4 text-pink-500" />
                   </div>
-                  <span>{bundle.quantity} Premium Lipliner{bundle.quantity > 1 ? 's' : ''}</span>
+                  <span>{bundle.quantity} Lip Gloss{bundle.quantity > 1 ? 'es' : ''}</span>
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
                   <div className="flex-shrink-0 w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center">
@@ -535,9 +631,9 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
           className="mt-28 grid grid-cols-2 md:grid-cols-3 gap-6 text-center"
         >
           {[
-            { icon: '✨', text: 'Cruelty-Free', gradient: 'from-pink-500/10 to-purple-500/10' },
-            { icon: '🇪🇺', text: 'Made in Europe', gradient: 'from-blue-500/10 to-pink-500/10' },
-            { icon: '💝', text: 'Premium Quality', gradient: 'from-pink-500/10 to-red-500/10' },
+            { Icon: Sparkles, text: 'Cruelty-Free', gradient: 'from-pink-500/10 to-purple-500/10', iconColor: 'text-pink-400' },
+            { Icon: Star, text: 'Made in Europe', gradient: 'from-blue-500/10 to-pink-500/10', iconColor: 'text-blue-400' },
+            { Icon: Heart, text: 'Premium Quality', gradient: 'from-pink-500/10 to-red-500/10', iconColor: 'text-red-400' },
           ].map((badge, i) => (
             <motion.div 
               key={i} 
@@ -553,11 +649,11 @@ export default function Products({ onCheckout }: { onCheckout: (bundle: any, col
                 transition={{ duration: 0.3 }}
               />
               <motion.div 
-                className="relative text-6xl mb-3"
+                className="relative mb-3"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                {badge.icon}
+                <badge.Icon className={`w-12 h-12 ${badge.iconColor}`} />
               </motion.div>
               <div className="relative text-gray-200 font-semibold text-lg">{badge.text}</div>
             </motion.div>

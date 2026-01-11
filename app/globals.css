@@ -3,6 +3,11 @@
 :root {
   --background: #030712;
   --foreground: #f9fafb;
+  --pink-primary: #ec4899;
+  --pink-light: #f472b6;
+  --pink-dark: #be185d;
+  --fuchsia: #d946ef;
+  --rose: #f43f5e;
 }
 
 @theme inline {
@@ -17,6 +22,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  /* Soft gradient background */
+  background: radial-gradient(ellipse at top, rgba(236, 72, 153, 0.05) 0%, #030712 50%);
 }
 
 * {
@@ -28,13 +35,14 @@ body {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .glass-strong {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(30px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 0 0 60px rgba(236, 72, 153, 0.05);
 }
 
 .gradient-pink {
@@ -43,7 +51,7 @@ body {
 
 .gradient-pink-glow {
   background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-  box-shadow: 0 10px 40px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 10px 40px rgba(236, 72, 153, 0.5), 0 0 80px rgba(236, 72, 153, 0.2);
 }
 
 .gradient-text {
@@ -51,15 +59,17 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 30px rgba(236, 72, 153, 0.3);
 }
 
 .gradient-text-animated {
-  background: linear-gradient(90deg, #ec4899, #f472b6, #ec4899, #f472b6);
+  background: linear-gradient(90deg, #ec4899, #f472b6, #d946ef, #f472b6, #ec4899);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientFlow 4s ease infinite;
+  animation: gradientFlow 5s ease infinite;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.3));
 }
 
 @keyframes gradientFlow {
@@ -67,18 +77,60 @@ body {
   50% { background-position: 100% 50%; }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(5deg); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.3), 0 0 40px rgba(236, 72, 153, 0.1); 
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(236, 72, 153, 0.6), 0 0 80px rgba(236, 72, 153, 0.2); 
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Button hover effects */
+button, .btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+}
+
+/* Card hover glow */
+.card-glow:hover {
+  box-shadow: 0 0 40px rgba(236, 72, 153, 0.3), 0 0 80px rgba(236, 72, 153, 0.1);
 }
 
 /* Smooth parallax */

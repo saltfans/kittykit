@@ -7,23 +7,27 @@ import { ChevronDown, Sparkles } from 'lucide-react';
 const faqs = [
   {
     question: 'How long does shipping take?',
-    answer: 'Orders are typically processed within 1-2 business days and delivered within 5-7 business days depending on your location.',
+    answer: 'Orders are typically processed within 1-2 business days and delivered within 5-7 business days depending on your location in Europe.',
   },
   {
     question: 'What is your return policy?',
-    answer: 'We offer a 30-day money-back guarantee. If you\'re not satisfied with your purchase, you can return unused products for a full refund within 30 days of delivery.',
+    answer: 'We offer a 30-day money-back guarantee. If you\'re not satisfied with your purchase, you can return unused, unopened products for a full refund within 30 days of delivery.',
   },
   {
     question: 'Are your products cruelty-free?',
     answer: 'Yes! All Kitty KIT products are 100% cruelty-free and never tested on animals. We\'re committed to ethical beauty practices.',
   },
   {
-    question: 'How long does the lipstick last?',
-    answer: 'Our premium formula is designed to last up to 12 hours with minimal fading. The long-lasting, comfortable wear means fewer touch-ups throughout your day.',
+    question: 'What\'s included in each lip kit?',
+    answer: 'Each Kitty KIT set includes a precision lip liner and a matching lustrous lip gloss, perfectly coordinated for flawless application and long-lasting wear.',
   },
   {
-    question: 'Can I buy just one color?',
-    answer: 'Absolutely! You can purchase a single lipstick in your preferred color (Pink or Red) for €19, or save more by choosing our bundle deals.',
+    question: 'How long does the lip kit last?',
+    answer: 'Our premium formula is designed to last up to 12 hours with minimal fading. The liner provides definition while the gloss adds shine and moisture for comfortable all-day wear.',
+  },
+  {
+    question: 'Can I buy just one set?',
+    answer: 'Absolutely! You can purchase a single lip kit (Set Gorgeous or Set Leading Lady) for €24, or save more by choosing our duo pack with both sets for €45.',
   },
   {
     question: 'What payment methods do you accept?',

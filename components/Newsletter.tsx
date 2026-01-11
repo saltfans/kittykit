@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Check } from 'lucide-react';
+import { Send, Mail, Check, Gift, Bell, Percent } from 'lucide-react';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
@@ -182,9 +182,10 @@ export default function Newsletter() {
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-green-400 text-center mt-4 font-medium"
+                className="text-green-400 text-center mt-4 font-medium flex items-center justify-center gap-2"
               >
-                ✨ Thank you! Check your email for the discount code.
+                <Check className="w-5 h-5" />
+                Thank you! Check your email for the discount code.
               </motion.p>
             )}
 
@@ -197,9 +198,9 @@ export default function Newsletter() {
               className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-white/10"
             >
               {[
-                { icon: '🎁', text: 'Exclusive offers' },
-                { icon: '✨', text: 'New products first' },
-                { icon: '💝', text: 'Special discounts' },
+                { Icon: Gift, text: 'Exclusive offers', color: 'text-pink-400' },
+                { Icon: Bell, text: 'New arrivals', color: 'text-purple-400' },
+                { Icon: Percent, text: 'Special discounts', color: 'text-fuchsia-400' },
               ].map((benefit, index) => (
                 <motion.div
                   key={index}
@@ -207,10 +208,11 @@ export default function Newsletter() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
                   className="flex items-center gap-3 text-gray-300"
                 >
-                  <span className="text-2xl">{benefit.icon}</span>
-                  <span className="text-sm">{benefit.text}</span>
+                  <benefit.Icon className={`w-6 h-6 ${benefit.color}`} />
+                  <span className="text-sm font-medium">{benefit.text}</span>
                 </motion.div>
               ))}
             </motion.div>

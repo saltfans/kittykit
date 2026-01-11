@@ -140,7 +140,7 @@ export default function Hero() {
             className="mb-4"
           >
             <p className="text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-pink-200 to-pink-300 font-semibold max-w-2xl mx-auto">
-              Premium Luxury Lipstick
+              Premium Lip Kits · Liner + Gloss
             </p>
           </motion.div>
           
@@ -150,9 +150,9 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
           >
-            Experience bold, vibrant colors that last all day.
+            Complete lip kits with precision liner & lustrous gloss.
             <br />
-            <span className="text-pink-400 font-medium">Available in stunning Pink and Red.</span>
+            <span className="text-pink-400 font-medium">Set Gorgeous · Set Leading Lady</span>
           </motion.p>
 
           <motion.div
@@ -201,11 +201,37 @@ export default function Hero() {
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  45%
+                  €37
                 </motion.span>
               </div>
               <div className="text-sm text-gray-300 mt-1">on bundle deals</div>
             </motion.div>
+          </motion.div>
+
+          {/* Product Preview */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="mt-16 flex justify-center gap-8"
+          >
+            {[
+              { img: '/KKIT/openlipstick_gorgeous_onhand.jpg', name: 'Set Gorgeous', color: 'from-fuchsia-500 to-pink-600' },
+              { img: '/KKIT/openlipstick_leadinglady_onhand.jpg', name: 'Set Leading Lady', color: 'from-red-600 to-rose-700' },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ scale: 1.1, y: -10 }}
+                className="relative group cursor-pointer"
+                onClick={scrollToProducts}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity`} />
+                <div className="relative w-32 h-32 rounded-2xl overflow-hidden glass-strong p-2">
+                  <img src={item.img} alt={item.name} className="w-full h-full object-cover rounded-xl" />
+                </div>
+                <p className="text-center mt-2 text-sm text-gray-300 font-medium">{item.name}</p>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
       </motion.div>

@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kitty KIT - Premium Lipstick | Luxury Beauty",
-  description: "Discover Kitty KIT premium lipsticks in Pink and Red. Get up to 45% off on bundle deals.",
-  keywords: ["lipstick", "makeup", "beauty", "kitty kit", "luxury lipstick", "pink lipstick", "red lipstick", "european beauty", "cruelty free makeup"],
+  title: "Kitty KIT - Premium Lip Kits | Liner + Gloss Sets",
+  description: "Complete lip kits with precision liner & lustrous gloss. Set Gorgeous & Set Leading Lady. Cruelty-free, long-lasting formula. Save up to €37 on bundles!",
+  keywords: ["lip kit", "lip liner", "lip gloss", "kitty kit", "makeup", "beauty", "set gorgeous", "set leading lady", "luxury lip kit", "cruelty free makeup", "european beauty"],
   authors: [{ name: "Kitty KIT" }],
   creator: "Kitty KIT",
   publisher: "Kitty KIT",
@@ -24,16 +24,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Kitty KIT - Premium Lipstick",
-    description: "Luxury lipsticks in Pink and Red. Special bundle offers up to 45% off!",
+    title: "Kitty KIT - Premium Lip Kits",
+    description: "Complete lip kits with liner + gloss. Set Gorgeous & Set Leading Lady. Save up to €37!",
     url: 'https://kittykit.hot',
     siteName: 'Kitty KIT',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/KKIT/beautysetup.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kitty KIT Premium Lipstick',
+        alt: 'Kitty KIT Premium Lip Kits',
       },
     ],
     locale: 'en_EU',
@@ -41,9 +41,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kitty KIT - Premium Lipstick',
-    description: 'Luxury lipsticks with up to 45% off on bundles!',
-    images: ['/og-image.jpg'],
+    title: 'Kitty KIT - Premium Lip Kits',
+    description: 'Complete lip kits with liner + gloss. Save up to €37!',
+    images: ['/KKIT/beautysetup.jpg'],
   },
   robots: {
     index: true,

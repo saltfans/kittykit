@@ -31,9 +31,9 @@ export default function Footer() {
           >
             <h3 className="text-4xl font-bold gradient-text-animated mb-4">Kitty KIT</h3>
             <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
-              Premium luxury lipsticks crafted for bold, confident women. 
+              Premium lip kits with precision liner & lustrous gloss. Crafted for bold, confident women. 
               <br />
-              <span className="text-pink-400 font-medium">Made with love in Europe.</span>
+              <span className="text-pink-400 font-medium">Set Gorgeous · Set Leading Lady</span>
             </p>
             <div className="flex gap-4">
               <motion.a 
