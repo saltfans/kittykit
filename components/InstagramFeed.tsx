@@ -139,11 +139,11 @@ export default function InstagramFeed() {
                 <div className="flex items-center gap-6 mb-4">
                   <div className="flex items-center gap-2">
                     <Heart className="w-6 h-6 fill-white" />
-                    <span className="font-bold">{post.likes.toLocaleString()}</span>
+                    <span className="font-bold" suppressHydrationWarning>{post.likes.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MessageCircle className="w-6 h-6" />
-                    <span className="font-bold">{post.comments}</span>
+                    <span className="font-bold" suppressHydrationWarning>{post.comments}</span>
                   </div>
                 </div>
                 <p className="text-sm text-center line-clamp-2">{post.caption}</p>
